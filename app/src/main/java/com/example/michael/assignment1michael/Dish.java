@@ -6,7 +6,7 @@ package com.example.michael.assignment1michael;
 
 public class Dish {
 
-    private String name;
+    private String name; //Name of the Dish
     private String description;
     private String price;
     private int imageId; //stores the int id value for String filename of image
