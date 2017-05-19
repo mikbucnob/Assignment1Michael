@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/priceval"
+        android:title="Price"
+        app:showAsAction="always" />
+    <item android:id="@+id/spicy"
+        android:title="Spicy"
+        android:icon="@drawable/chilli"
+        app:showAsAction="never"/>
+    <item android:id="@+id/vegetarian"
+        android:title="Vegetarian"
+        android:icon="@drawable/vege"
+        app:showAsAction="never"/>
+    <item android:id="@+id/normal"
+        android:title="Normal"
+        app:showAsAction="never"/>
+    <item android:id="@+id/all"
+        android:title="All"
+        app:showAsAction="never"/>
+    <item android:id="@+id/popularity"
+        android:title="Popularity"
+        app:showAsAction="never"/>
+    <item android:id="@+id/alphabetically"
+        android:title="Alphabetically"
+        app:showAsAction="never"/>
+    <item android:id="@+id/onSpecial"
+        android:title="Special"
+        app:showAsAction="never"/>
+</menu>
+

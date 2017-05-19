@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<waiters>
+    <waiter>
+        <username>Michael</username>
+        <password>279c4683488ef624544e273d12099eec14b0805b</password>
+    </waiter>
+    <waiter>
+        <username>Roland</username>
+        <password>a53ad96311f8129b13a9b5a82ea214d1235cdeee</password>
+    </waiter>
+    <waiter>
+        <username>David</username>
+        <password>f63811e96c7d91eee940c6288efa7be3ebd65537</password>
+        <!--hashed-->
+    </waiter>
+</waiters>

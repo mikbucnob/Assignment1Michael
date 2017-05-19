@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Ordering Program</string>
+    <string name="userid">Please Enter User ID:-</string>
+    <string name="password">Please Enter Password:-</string>
+    <string name="your_id">id</string>
+    <string name="passwordhint">password</string>
+    <string name="log_in">LOG IN</string>
+    <string name="chikki_chinese_restaurant">Chikki Chinese Restaurant</string>
+    <string name="quantity_of_dishes">Quantity of Dishes:-</string>
+    <string name="table_number">table number</string>
+    <string name="table_number2">Table Number:-</string>
+    <string name="ok">OK</string>
+    <string name="price">Price = </string>
+    <string name="number_of_dishes">number of dishes</string>
+    <string name="finished_order">Finished Order</string>
+    <string name="add_more">add more</string>
+    <string name="calculate">calculate</string>
+    <string name="total_price">Total Price =</string>
+    <string name="torderprice">Total Order Price = $</string>
+    <string name="orderprice">Price = $</string>
+    <string name="total_order_price">totalorderprice</string>
+</resources>

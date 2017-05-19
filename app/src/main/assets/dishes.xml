@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dishes>
+    <dish>
+        <title>Beef Black Bean</title>
+        <description>Beef cooked in Black Bean sauce and veges</description>
+        <category>normal</category>
+        <on_special>true</on_special>
+        <popularity>4</popularity>
+        <picture>drawable/beefblackbean</picture>
+        <price>9.00</price>
+    </dish>
+    <dish>
+        <title>Sweet and Sour Pork</title>
+        <description>Battered and fried Pork with veges and Sweet and Sour Sauce</description>
+        <category>normal</category>
+        <on_special>false</on_special>
+        <popularity>3</popularity>
+        <picture>drawable/sweetnsour</picture>
+        <price>8.90</price>
+    </dish>
+    <dish>
+        <title>Chicken and Vegetable</title>
+        <description>Chicken and veges cooked in chicken garlic sauce</description>
+        <category>normal</category>
+        <on_special>false</on_special>
+        <popularity>3</popularity>
+        <picture>drawable/chickenvege</picture>
+        <price>7.70</price>
+    </dish>
+    <dish>
+        <title>Mongolian Lamb</title>
+        <description>Lamb cooked with our special Mongolian Sauce</description>
+        <category>spicy</category>
+        <on_special>true</on_special>
+        <popularity>5</popularity>
+        <picture>drawable/mongolianlamb</picture>
+        <price>8.30</price>
+    </dish>
+    <dish>
+        <title>Satay Chicken</title>
+        <description>Chicken cooked with Satay Sauce</description>
+        <category>spicy</category>
+        <on_special>false</on_special>
+        <popularity>4</popularity>
+        <picture>drawable/sataychicken</picture>
+        <price>7.80</price>
+    </dish>
+    <dish>
+        <title>Short Soup</title>
+        <description>Wontons in tasty soup</description>
+        <category>normal</category>
+        <on_special>false</on_special>
+        <popularity>5</popularity>
+        <picture>drawable/shortsoup</picture>
+        <price>5.00</price>
+    </dish>
+    <dish>
+        <title>Spring Rolls</title>
+        <description>Special spicy mix of items wrapped up in crispy pastry</description>
+        <category>spicy</category>
+        <on_special>true</on_special>
+        <popularity>3</popularity>
+        <picture>drawable/springrolls</picture>
+        <price>6.00</price>
+    </dish>
+    <dish>
+        <title>Chilli Chicken</title>
+        <description>Char grilled chicken marinated in special chilli sauce</description>
+        <category>spicy</category>
+        <on_special>false</on_special>
+        <popularity>5</popularity>
+        <picture>drawable/chillichicken</picture>
+        <price>8.70</price>
+    </dish>
+    <dish>
+        <title>MaPo Tofu</title>
+        <description>Tofu cooked in special maPo sauce</description>
+        <category>vegetarian</category>
+        <on_special>true</on_special>
+        <popularity>3</popularity>
+        <picture>drawable/mapotofu</picture>
+        <price>8.30</price>
+    </dish>
+    <dish>
+        <title>Soy Sauce Chow Mein</title>
+        <description>Pan-fried noodles with a collection of soy sauces</description>
+        <category>vegetarian</category>
+        <on_special>true</on_special>
+        <popularity>2</popularity>
+        <picture>drawable/soychowmein</picture>
+        <price>7.20</price>
+    </dish>
+
+</dishes>

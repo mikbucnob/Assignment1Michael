@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.example.michael.assignment1michael.TakingOrders">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="Arial"
+            android:textSize="32sp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/chikki_chinese_restaurant"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:gravity="center"
+            android:id="@+id/orderPicture"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="Arial"
+            android:layout_marginBottom="0dp"
+            android:gravity="center"
+            android:textSize="32sp"
+            android:id="@+id/requestedDish"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="Arial"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:text="@string/table_number2"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="Arial"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:maxLength="3"
+            android:minWidth="200dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="15dp"
+            android:ellipsize="start"
+            android:layout_centerVertical="true"
+            android:hint="@string/table_number"
+            android:inputType="numberDecimal"
+            android:id="@+id/tableNumber"
+            android:background="@drawable/edittextstyle"/>
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="Arial"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:text="@string/quantity_of_dishes"/>
+
+        <EditText
+            android:id="@+id/numberDishes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edittextstyle"
+            android:ellipsize="start"
+            android:fontFamily="Arial"
+            android:gravity="center"
+            android:hint="@string/number_of_dishes"
+            android:inputType="number|numberDecimal"
+            android:maxLength="3"
+            android:minWidth="200dp"
+            android:textSize="25sp" />
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="Arial"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:text="@string/price"
+            android:id="@+id/calculatedPrice"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="Arial"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:text="@string/torderprice"
+            android:id="@+id/totalPrice"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_more"
+                android:layout_gravity="left"
+                android:id="@+id/addmore" />
+
+            <Button
+                android:id="@+id/okButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:text="@string/finished_order" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</ScrollView>
