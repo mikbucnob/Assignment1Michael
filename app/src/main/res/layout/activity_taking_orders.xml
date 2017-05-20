@@ -46,56 +46,51 @@
             android:layout_height="wrap_content"
             android:fontFamily="Arial"
             android:gravity="center"
+            android:paddingTop="10dp"
             android:textSize="25sp"
             android:text="@string/table_number2"/>
-        <EditText
-            android:layout_width="wrap_content"
+
+        <com.shawnlin.numberpicker.NumberPicker
+            android:id="@+id/table"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="Arial"
-            android:textSize="25sp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:maxLength="3"
-            android:minWidth="200dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="15dp"
-            android:ellipsize="start"
-            android:layout_centerVertical="true"
-            android:hint="@string/table_number"
-            android:inputType="numberDecimal"
-            android:id="@+id/tableNumber"
-            android:background="@drawable/edittextstyle"/>
-            />
+            android:layout_centerInParent="true"
+            app:np_width="140dp"
+            app:np_height="50dp"
+            app:np_dividerColor="@color/colorPrimary"
+            app:np_orientation="horizontal"
+            app:np_max="59"
+            app:np_min="0"
+            app:np_selectedTextColor="@color/colorPrimary"
+            app:np_textColor="@color/colorPrimary"
+            app:np_textSize="50sp"
+            app:np_value="3" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="Arial"
             android:gravity="center"
             android:textSize="25sp"
+            android:paddingTop="10dp"
             android:text="@string/quantity_of_dishes"/>
 
-        <EditText
-            android:id="@+id/numberDishes"
-            android:layout_width="wrap_content"
+        <com.shawnlin.numberpicker.NumberPicker
+            android:id="@+id/numDishes"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/edittextstyle"
-            android:ellipsize="start"
-            android:fontFamily="Arial"
-            android:gravity="center"
-            android:hint="@string/number_of_dishes"
-            android:inputType="number|numberDecimal"
-            android:maxLength="3"
-            android:minWidth="200dp"
-            android:textSize="25sp" />
-            />
+            android:layout_centerInParent="true"
+            app:np_width="140dp"
+            app:np_height="50dp"
+            app:np_dividerColor="@color/colorPrimary"
+            app:np_orientation="horizontal"
+            app:np_max="59"
+            app:np_min="0"
+            app:np_selectedTextColor="@color/colorPrimary"
+            app:np_textColor="@color/colorPrimary"
+            app:np_textSize="50sp"
+            app:np_value="3" />
+
 
 
         <TextView
@@ -103,6 +98,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="Arial"
             android:gravity="center"
+            android:paddingTop="10dp"
             android:textSize="25sp"
             android:text="@string/price"
             android:id="@+id/calculatedPrice"/>

@@ -10,18 +10,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-public class TakingOrders extends AppCompatActivity {
+public class TakingOrders extends AppCompatActivity implements com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener {
 
     private ImageView dishImage;
 
     private TextView dishName;
 
-    private EditText tableNumber;
-    private EditText numDishes;
     private TextView price;
     private Button addMore;
     private Button completeOrder;
@@ -56,8 +56,6 @@ public class TakingOrders extends AppCompatActivity {
         ImageView dishImage = (ImageView) findViewById(R.id.orderPicture);
         TextView dishName = (TextView) findViewById(R.id.requestedDish);
 
-        tableNumber = (EditText) findViewById(R.id.tableNumber);
-        numDishes = (EditText) findViewById(R.id.numberDishes);
         price = (TextView) findViewById(R.id.calculatedPrice);
         addMore = (Button) findViewById(R.id.addmore);
         completeOrder = (Button) findViewById(R.id.okButton);
@@ -80,7 +78,7 @@ public class TakingOrders extends AppCompatActivity {
             }
         });
 
-        numDishes.setOnKeyListener(new View.OnKeyListener() {
+/*        numDishes.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 newTotalOrderPrice = totalCurrentOrderPrice;
@@ -99,7 +97,33 @@ public class TakingOrders extends AppCompatActivity {
                 hasBeenPut=true;
                 return false;
             }
-        });
+        });*/
+
+        com.shawnlin.numberpicker.NumberPicker tableNumber = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.table);
+
+        //Populate NumberPicker values from minimum and maximum value range
+        //Set the minimum value of NumberPicker
+        tableNumber.setMinValue(0);
+        //Specify the maximum value/number of NumberPicker
+        tableNumber.setMaxValue(15);
+
+        //Gets whether the selector wheel wraps when reaching the min/max value.
+        tableNumber.setWrapSelectorWheel(true);
+
+
+        //Number of Dishes
+        com.shawnlin.numberpicker.NumberPicker numDishes = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.numDishes);
+
+        //Populate NumberPicker values from minimum and maximum value range
+        //Set the minimum value of NumberPicker
+        numDishes.setMinValue(0);
+        //Specify the maximum value/number of NumberPicker
+        numDishes.setMaxValue(20);
+
+        //Gets whether the selector wheel wraps when reaching the min/max value.
+        numDishes.setWrapSelectorWheel(true);
+
+
 
         completeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +135,11 @@ public class TakingOrders extends AppCompatActivity {
         });
 
 
+    }
+
+
+    public void onValueChange (com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
+        Toast.makeText(getApplicationContext(), "Number Picker Changed", Toast.LENGTH_SHORT).show();
     }
 
 
