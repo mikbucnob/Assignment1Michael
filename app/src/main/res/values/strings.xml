@@ -10,7 +10,7 @@
     <string name="table_number">table number</string>
     <string name="table_number2">Table Number:-</string>
     <string name="ok">OK</string>
-    <string name="price">Price = </string>
+    <string name="price">Price = $</string>
     <string name="number_of_dishes">number of dishes</string>
     <string name="finished_order">Finished Order</string>
     <string name="add_more">add more</string>
@@ -19,4 +19,5 @@
     <string name="torderprice">Total Order Price = $</string>
     <string name="orderprice">Price = $</string>
     <string name="total_order_price">totalorderprice</string>
+    <string name="summary_table_number">Table Number :</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class TakingOrders extends AppCompatActivity implements com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener {
 
     private ImageView dishImage;
@@ -25,11 +29,14 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
     private TextView price;
     private Button addMore;
     private Button completeOrder;
-       private TextView orderPrice;
+    private TextView orderPrice;
     private Double totalCurrentOrderPrice = 0.0;
     private Double newTotalOrderPrice = 0.0;
-    private boolean hasBeenPut=false;
     String totalOrderPriceString="";
+    private Order currentOrder;
+
+    private com.shawnlin.numberpicker.NumberPicker tableNumber;
+    private com.shawnlin.numberpicker.NumberPicker numDishes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +46,19 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         Intent intent = getIntent();
         String imageId = intent.getStringExtra("imageid");
         String name = intent.getStringExtra("name");
+        currentOrder = (Order) intent.getExtras().getSerializable("currentOrder");
         final String dishPrice = intent.getStringExtra("price");
 
         final SharedPreferences myprefs= getSharedPreferences("orderprice", MODE_WORLD_READABLE);
 
-        if (hasBeenPut){
-            String totalOrderPriceString = myprefs.getString("totalorderprice", null);
-        }else
-        {
-            totalOrderPriceString="0.0";
-        }
-        if(totalOrderPriceString != null && ""!=totalOrderPriceString && hasBeenPut) {
+        String totalOrderPriceString = myprefs.getString("totalorderprice", null);
+
+        if(totalOrderPriceString != null && ""!=totalOrderPriceString) {
             totalCurrentOrderPrice = Double.valueOf(totalOrderPriceString);
         }
 
         ImageView dishImage = (ImageView) findViewById(R.id.orderPicture);
-        TextView dishName = (TextView) findViewById(R.id.requestedDish);
+        final TextView dishName = (TextView) findViewById(R.id.requestedDish);
 
         price = (TextView) findViewById(R.id.calculatedPrice);
         addMore = (Button) findViewById(R.id.addmore);
@@ -74,7 +78,20 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
 
                 //Save Order details in memory and move to Menu Screen
                 myprefs.edit().putString(getString(R.string.total_order_price), String.valueOf(newTotalOrderPrice)).commit();
-                onBackPressed();
+
+                HashMap<String, Object> dishOrder = new HashMap<String, Object>();
+                dishOrder.put("dishname", dishName.getText().toString());
+                dishOrder.put("dishquantity", numDishes.getValue());
+                dishOrder.put("dishtotalprice", Double.valueOf(price.getText().toString()));
+                if(currentOrder == null) {
+                    currentOrder = new Order(tableNumber.getValue(), dishOrder,
+                            Double.valueOf(orderPrice.getText().toString()));
+                } else {
+                    currentOrder.addDishtoOrder(dishOrder);
+                }
+
+                Intent i = new Intent(TakingOrders.this, MenuScreen.class);
+                i.putExtra("currentOrder", currentOrder);
             }
         });
 
@@ -99,7 +116,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
             }
         });*/
 
-        com.shawnlin.numberpicker.NumberPicker tableNumber = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.table);
+        tableNumber = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.table);
 
         //Populate NumberPicker values from minimum and maximum value range
         //Set the minimum value of NumberPicker
@@ -110,15 +127,18 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         //Gets whether the selector wheel wraps when reaching the min/max value.
         tableNumber.setWrapSelectorWheel(true);
 
+        tableNumber.setValue(0);
 
         //Number of Dishes
-        com.shawnlin.numberpicker.NumberPicker numDishes = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.numDishes);
+        numDishes = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.numDishes);
 
         //Populate NumberPicker values from minimum and maximum value range
         //Set the minimum value of NumberPicker
         numDishes.setMinValue(0);
         //Specify the maximum value/number of NumberPicker
         numDishes.setMaxValue(20);
+
+        numDishes.setValue(0);
 
         //Gets whether the selector wheel wraps when reaching the min/max value.
         numDishes.setWrapSelectorWheel(true);
@@ -130,7 +150,10 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
             public void onClick(View v) {
 
                 //Save order details to xml file and delete from memory
-                onBackPressed();
+                Intent i = new Intent(TakingOrders.this, OrderSummaryActivity.class);
+                i.putExtra("currentOrder", currentOrder);
+                startActivity(i);
+
             }
         });
 
@@ -139,6 +162,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
 
 
     public void onValueChange (com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
+        Log.d("NumberPick", "Picker");
         Toast.makeText(getApplicationContext(), "Number Picker Changed", Toast.LENGTH_SHORT).show();
     }
 

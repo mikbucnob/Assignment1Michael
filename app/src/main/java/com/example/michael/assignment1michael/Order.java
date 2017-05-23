@@ -1,23 +1,27 @@
 package com.example.michael.assignment1michael;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by Michael on 17/05/2017.
  */
 
-public class Order {
+public class Order implements Serializable{
 
     private Integer tableNumber;
-    private Integer numDishes;
-    private String dishName;
-    private Double dishUnitPrice;
-    private Double dishTotalPrice;
+    private ArrayList<HashMap<String, Object>> dishesOrderInfo;
+    private Double orderTotalPrice;
 
-    public Order(Integer tableNumber, Integer numDishes, String dishName, Double dishUnitPrice, Double dishTotalPrice) {
+    public Order(Integer tableNumber, HashMap<String, Object> dishOrderInfo, Double orderTotalPrice) {
+
+        if(null == dishesOrderInfo){
+            dishesOrderInfo = new ArrayList<HashMap<String, Object>> ();
+        }
         this.tableNumber = tableNumber;
-        this.numDishes = numDishes;
-        this.dishName = dishName;
-        this.dishUnitPrice = dishUnitPrice;
-        this.dishTotalPrice = dishTotalPrice;
+        this.orderTotalPrice = orderTotalPrice;
+        dishesOrderInfo.add(dishOrderInfo);
     }
 
     public Integer getTableNumber() {
@@ -28,36 +32,24 @@ public class Order {
         this.tableNumber = tableNumber;
     }
 
-    public Integer getNumDishes() {
-        return numDishes;
+    public ArrayList<HashMap<String, Object>> getDishesOrderInfo() {
+        return dishesOrderInfo;
     }
 
-    public void setNumDishes(Integer numDishes) {
-        this.numDishes = numDishes;
+    public void setDishesOrderInfo(ArrayList<HashMap<String, Object>> dishesOrderInfo) {
+        this.dishesOrderInfo = dishesOrderInfo;
     }
 
-    public String getDishName() {
-        return dishName;
+    public Double getOrderTotalPrice() {
+        return orderTotalPrice;
     }
 
-    public void setDishName(String dishName) {
-        this.dishName = dishName;
+    public void setOrderTotalPrice(Double orderTotalPrice) {
+        this.orderTotalPrice = orderTotalPrice;
     }
 
-    public Double getDishUnitPrice() {
-        return dishUnitPrice;
-    }
-
-    public void setDishUnitPrice(Double dishUnitPrice) {
-        this.dishUnitPrice = dishUnitPrice;
-    }
-
-    public Double getDishTotalPrice() {
-        return dishTotalPrice;
-    }
-
-    public void setDishTotalPrice(Double dishTotalPrice) {
-        this.dishTotalPrice = dishTotalPrice;
+    public void addDishtoOrder(HashMap<String, Object> dishOrder){
+        dishesOrderInfo.add(dishOrder);
     }
 }
 

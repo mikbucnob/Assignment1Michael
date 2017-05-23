@@ -58,13 +58,18 @@ public class MenuScreen extends AppCompatActivity {
     static final String KEY_PRICE = "price";
 
     double price = 0.0;
-
+    private Order currentOrder;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_screen);
+
+        Intent intent = getIntent();
+        if(null != intent) {
+             currentOrder = (Order) intent.getExtras().getSerializable("currentOrder");
+        }
 
         final SharedPreferences myprefs= getSharedPreferences("orderprice", MODE_WORLD_READABLE);
         String totalOrderPriceString = myprefs.getString("R.string.total_order_price", null);
@@ -102,6 +107,7 @@ public class MenuScreen extends AppCompatActivity {
                 intent.putExtra("imageid", String.valueOf(dish.getImageId()));
                 intent.putExtra("name", dish.getName());
                 intent.putExtra("price", dish.getPrice());
+                intent.putExtra("currentOrder", currentOrder);
                 //intent.putExtra("totalorderprice", String.valueOf(totalOrderPrice));
                 startActivity(intent);
 
