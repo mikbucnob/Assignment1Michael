@@ -1,7 +1,9 @@
 package com.example.michael.assignment1michael;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -166,6 +168,13 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         Toast.makeText(getApplicationContext(), "Number Picker Changed", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Intent result = new Intent("com.example.RESULT_ACTION", Uri.parse("content://result_uri"));
+        //result intent needs to be packed with the order data
+        setResult(Activity.RESULT_OK, result);
+        finish();
 
-
+    }
 }

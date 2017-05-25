@@ -3,7 +3,6 @@ package com.example.michael.assignment1michael;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,19 +19,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 public class MenuScreen extends AppCompatActivity {
 
+    public static final int PLACE_ORDER = 1;
     public static final String SPICY = "spicy";
     public static final String VEGETARIAN = "vegetarian";
     public static final String NORMAL = "normal";
@@ -66,11 +60,6 @@ public class MenuScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_screen);
 
-        Intent intent = getIntent();
-        if(null != intent) {
-             currentOrder = (Order) intent.getExtras().getSerializable("currentOrder");
-        }
-
         final SharedPreferences myprefs= getSharedPreferences("orderprice", MODE_WORLD_READABLE);
         String totalOrderPriceString = myprefs.getString("R.string.total_order_price", null);
         if(totalOrderPriceString != null && ""!=totalOrderPriceString) {
@@ -89,6 +78,7 @@ public class MenuScreen extends AppCompatActivity {
             // File not found or unable to open
             //we knwo for sure that the file doesn't exist or we don't have
             //permissions to open it
+
             Toast.makeText(this, "cannot open dishes.xml!",Toast.LENGTH_LONG).show();
         }
 
@@ -109,7 +99,7 @@ public class MenuScreen extends AppCompatActivity {
                 intent.putExtra("price", dish.getPrice());
                 intent.putExtra("currentOrder", currentOrder);
                 //intent.putExtra("totalorderprice", String.valueOf(totalOrderPrice));
-                startActivity(intent);
+                startActivityForResult(intent,PLACE_ORDER);
 
             }
         });
@@ -258,6 +248,29 @@ public class MenuScreen extends AppCompatActivity {
             e1.printStackTrace();
         }
         return xmlString;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        if(null != intent.getExtras()) {
+             currentOrder = (Order) intent.getExtras().getSerializable("currentOrder");
+        }//runs after onCreate() of menu screen
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == PLACE_ORDER) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+
+                // Do something with the contact here (bigger example below)
+            }
+        }
     }
 
 }
