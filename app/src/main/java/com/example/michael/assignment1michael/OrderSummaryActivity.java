@@ -3,7 +3,10 @@ package com.example.michael.assignment1michael;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private TextView tableNumber;
     private TextView totalOrderPrice;
     private ListView orderSummary;
+    private Button saveOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         tableNumber = (TextView) findViewById(R.id.orderTableNumber);
         totalOrderPrice = (TextView) findViewById(R.id.totalOrderPrice);
         orderSummary = (ListView) findViewById(R.id.orderSummaryListView);
+        saveOrder = (Button) findViewById(R.id.saveOrder);
 
         ArrayList<HashMap<String, Object>> orderInfo = currentOrder.getDishesOrderInfo();
         ArrayList<String> dishesDisplay = new ArrayList<String>();
@@ -39,7 +44,8 @@ public class OrderSummaryActivity extends AppCompatActivity {
             Integer dishQuantity = (Integer) dishInfo.get("dishquantity");
             Double dishTotalPrice = (Double) dishInfo.get("dishtotalprice");
 
-            String dishInfoString = dishName + " : " + "Quantity : " + dishQuantity + " price : " + dishTotalPrice;
+            String dishInfoString = dishName + " : " + "Quantity : " + dishQuantity + " price : $" + dishTotalPrice;
+            Log.d("DishVal", "Dish display string : " + dishInfoString);
             dishesDisplay.add(dishInfoString);
         }
 
@@ -50,9 +56,29 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
         orderSummary.setAdapter(adapter);
 
+        Log.d("DishVal", "CurrentOrder : " + currentOrder.getTableNumber() + " : " + currentOrder.getOrderTotalPrice());
+        tableNumber.setText("Table number is : " + String.valueOf(currentOrder.getTableNumber()));
+        totalOrderPrice.setText("Total Order Price is : $" + String.valueOf(currentOrder.getOrderTotalPrice()));
 
-        tableNumber.setText(currentOrder.getTableNumber());
-        totalOrderPrice.setText(String.valueOf(currentOrder.getOrderTotalPrice()));
 
+        saveOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Save to xml file and return to main screen
+
+                Intent i = new Intent(OrderSummaryActivity.this, MenuScreen.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed (){
+        Intent i = new Intent(OrderSummaryActivity.this, MenuScreen.class);
+        startActivity(i);
+        finish();
     }
 }

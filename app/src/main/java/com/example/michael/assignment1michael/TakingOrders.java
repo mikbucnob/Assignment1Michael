@@ -29,13 +29,13 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
     private TextView dishName;
 
     private TextView price;
-    private Button addMore;
     private Button completeOrder;
     private TextView orderPrice;
     private Double totalCurrentOrderPrice = 0.0;
     private Double newTotalOrderPrice = 0.0;
     String totalOrderPriceString="";
     private Order currentOrder;
+    private String dishPrice;
 
     private com.shawnlin.numberpicker.NumberPicker tableNumber;
     private com.shawnlin.numberpicker.NumberPicker numDishes;
@@ -49,21 +49,17 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         String imageId = intent.getStringExtra("imageid");
         String name = intent.getStringExtra("name");
         currentOrder = (Order) intent.getExtras().getSerializable("currentOrder");
-        final String dishPrice = intent.getStringExtra("price");
+        dishPrice = intent.getStringExtra("price");
 
-        final SharedPreferences myprefs= getSharedPreferences("orderprice", MODE_WORLD_READABLE);
 
-        String totalOrderPriceString = myprefs.getString("totalorderprice", null);
-
-        if(totalOrderPriceString != null && ""!=totalOrderPriceString) {
-            totalCurrentOrderPrice = Double.valueOf(totalOrderPriceString);
+        if(currentOrder !=null) {
+            totalCurrentOrderPrice = currentOrder.getOrderTotalPrice();
         }
 
         ImageView dishImage = (ImageView) findViewById(R.id.orderPicture);
-        final TextView dishName = (TextView) findViewById(R.id.requestedDish);
+        dishName = (TextView) findViewById(R.id.requestedDish);
 
         price = (TextView) findViewById(R.id.calculatedPrice);
-        addMore = (Button) findViewById(R.id.addmore);
         completeOrder = (Button) findViewById(R.id.okButton);
         orderPrice = (TextView) findViewById(R.id.totalPrice);
 
@@ -72,30 +68,6 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         dishImage.setImageResource(imageID);
         dishName.setText(name);
 
-
-
-        addMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //Save Order details in memory and move to Menu Screen
-                myprefs.edit().putString(getString(R.string.total_order_price), String.valueOf(newTotalOrderPrice)).commit();
-
-                HashMap<String, Object> dishOrder = new HashMap<String, Object>();
-                dishOrder.put("dishname", dishName.getText().toString());
-                dishOrder.put("dishquantity", numDishes.getValue());
-                dishOrder.put("dishtotalprice", Double.valueOf(price.getText().toString()));
-                if(currentOrder == null) {
-                    currentOrder = new Order(tableNumber.getValue(), dishOrder,
-                            Double.valueOf(orderPrice.getText().toString()));
-                } else {
-                    currentOrder.addDishtoOrder(dishOrder);
-                }
-
-                Intent i = new Intent(TakingOrders.this, MenuScreen.class);
-                i.putExtra("currentOrder", currentOrder);
-            }
-        });
 
 /*        numDishes.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -117,6 +89,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
                 return false;
             }
         });*/
+
 
         tableNumber = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.table);
 
@@ -151,6 +124,11 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
             @Override
             public void onClick(View v) {
 
+
+                updatePrices();
+
+                addItemToOrder(dishName);
+
                 //Save order details to xml file and delete from memory
                 Intent i = new Intent(TakingOrders.this, OrderSummaryActivity.class);
                 i.putExtra("currentOrder", currentOrder);
@@ -160,6 +138,36 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         });
 
 
+    }
+
+    private void updatePrices(){
+        //newTotalOrderPrice = totalCurrentOrderPrice;
+
+        //Integer.parseInt()
+        Double totalDishPrice = Double.valueOf(dishPrice) * numDishes.getValue();
+        String priceText = String.valueOf(Double.valueOf(dishPrice) * numDishes.getValue());
+        price.setText(priceText);
+
+        Log.d("Price", "totalCurrentOrderPrice : " + totalCurrentOrderPrice + " totaldishprice : " + totalDishPrice);
+        newTotalOrderPrice = totalCurrentOrderPrice + totalDishPrice;
+        Log.d("New price", "newTotalOrderprice : " + newTotalOrderPrice);
+        String totalPriceText = String.valueOf(newTotalOrderPrice);
+        orderPrice.setText(totalPriceText);
+    }
+
+    private void addItemToOrder(TextView dishName) {
+        HashMap<String, Object> dishOrder = new HashMap<String, Object>();
+        dishOrder.put("dishname", dishName.getText().toString());
+        dishOrder.put("dishquantity", numDishes.getValue());
+        dishOrder.put("dishtotalprice", Double.valueOf(price.getText().toString()));
+        if(currentOrder == null) {
+            currentOrder = new Order(tableNumber.getValue(), dishOrder,
+                   newTotalOrderPrice);
+            Log.d("Order", "Creating order with new total order price: " + newTotalOrderPrice);
+        } else {
+            currentOrder.addDishtoOrder(dishOrder);
+            currentOrder.setOrderTotalPrice(newTotalOrderPrice);
+        }
     }
 
 
@@ -176,5 +184,18 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         setResult(Activity.RESULT_OK, result);
         finish();
 
+    }
+
+    @Override
+    public void onBackPressed (){
+
+        updatePrices();
+
+        addItemToOrder(dishName);
+
+        Intent i = new Intent();
+        i.putExtra("currentOrder", currentOrder);
+        setResult(RESULT_OK, i);
+        finish();
     }
 }

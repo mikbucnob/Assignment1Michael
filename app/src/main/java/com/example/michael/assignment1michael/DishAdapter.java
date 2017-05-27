@@ -66,7 +66,7 @@ public class DishAdapter extends BaseAdapter
         // Setting all values in listview
         title.setText(dish.getName());
         description.setText(dish.getDescription());
-        price.setText(dish.getPrice());
+        price.setText("$"+ dish.getPrice());
         int imageId = dish.getImageId();
 
         Drawable image = ContextCompat.getDrawable(activity, imageId);

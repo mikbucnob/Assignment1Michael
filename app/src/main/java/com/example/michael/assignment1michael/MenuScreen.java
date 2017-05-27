@@ -39,19 +39,8 @@ public class MenuScreen extends AppCompatActivity {
 
     private Menu menu;
 
-    // All static variables
-    // XML node keys
-    static final String KEY_DISH = "dish"; // parent node
-    static final String KEY_TITLE = "title";
-    static final String KEY_DESCRIPTION = "description";
-    static final String KEY_CATEGORY = "category";
-    static final String KEY_SPECIAL = "on_special";
     public static final String POPULARITY = "popularity";
-    static final String KEY_POPULARITY = POPULARITY;
-    static final String KEY_PICTURE = "picture";
-    static final String KEY_PRICE = "price";
 
-    double price = 0.0;
     private Order currentOrder;
 
 
@@ -60,11 +49,7 @@ public class MenuScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_screen);
 
-        final SharedPreferences myprefs= getSharedPreferences("orderprice", MODE_WORLD_READABLE);
-        String totalOrderPriceString = myprefs.getString("R.string.total_order_price", null);
-        if(totalOrderPriceString != null && ""!=totalOrderPriceString) {
-            totalOrderPrice = Double.valueOf(totalOrderPriceString);
-        }
+
 
         XMLUtil xmlUtil = new XMLDish(this);
 
@@ -183,6 +168,7 @@ public class MenuScreen extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_options, menu);
         this.menu = menu;
+        updatePriceMenu();
         return true;
     }
 
@@ -221,7 +207,7 @@ public class MenuScreen extends AppCompatActivity {
 
     private void updatePriceMenu() {
         MenuItem priceMenuItem = menu.findItem(R.id.priceval);
-        String priceTitle = "Price : " + String.valueOf(price);
+        String priceTitle = "Price : $" + String.valueOf(totalOrderPrice);
         priceMenuItem.setTitle(priceTitle);
 
     }
@@ -265,6 +251,10 @@ public class MenuScreen extends AppCompatActivity {
         if (requestCode == PLACE_ORDER) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
+
+                currentOrder = (Order) data.getExtras().getSerializable("currentOrder");
+                totalOrderPrice = currentOrder.getOrderTotalPrice();
+                updatePriceMenu();
                 // The user picked a contact.
                 // The Intent's data Uri identifies which contact was selected.
 

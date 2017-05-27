@@ -15,26 +15,40 @@
         android:textSize="32sp"
         android:gravity="center"/>
 
+
+
     <TextView
         android:id="@+id/orderTableNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="@string/summary_table_number"
         android:fontFamily="Arial"
         android:textSize="32sp"
         android:gravity="center"/>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/orderSummaryListView"/>
-
     <TextView
         android:id="@+id/totalOrderPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:fontFamily="Arial"
         android:textSize="30sp"
         android:gravity="center"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/orderSummaryListView"/>
+
+    <Button
+        android:id="@+id/saveOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="Save Order"/>
+
 
 </LinearLayout>
