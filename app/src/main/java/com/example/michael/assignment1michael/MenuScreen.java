@@ -207,7 +207,7 @@ public class MenuScreen extends AppCompatActivity {
 
     private void updatePriceMenu() {
         MenuItem priceMenuItem = menu.findItem(R.id.priceval);
-        String priceTitle = "Price : $" + String.valueOf(totalOrderPrice);
+        String priceTitle = "Price : $" + String.valueOf(totalOrderPrice) + "0";
         priceMenuItem.setTitle(priceTitle);
 
     }

@@ -1,5 +1,6 @@
 package com.example.michael.assignment1michael;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +47,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
             Integer dishQuantity = (Integer) dishInfo.get("dishquantity");
             Double dishTotalPrice = (Double) dishInfo.get("dishtotalprice");
 
-            String dishInfoString = dishName + " : " + "Quantity : " + dishQuantity + " price : $" + dishTotalPrice;
+            String dishInfoString = dishName + " : " + "Quantity : " + dishQuantity + " price : $" + dishTotalPrice +"0";
             Log.d("DishVal", "Dish display string : " + dishInfoString);
             dishesDisplay.add(dishInfoString);
         }
@@ -58,7 +61,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
         Log.d("DishVal", "CurrentOrder : " + currentOrder.getTableNumber() + " : " + currentOrder.getOrderTotalPrice());
         tableNumber.setText("Table number is : " + String.valueOf(currentOrder.getTableNumber()));
-        totalOrderPrice.setText("Total Order Price is : $" + String.valueOf(currentOrder.getOrderTotalPrice()));
+        totalOrderPrice.setText("Total Order Price is : $" + String.valueOf(currentOrder.getOrderTotalPrice())+"0");
 
 
         saveOrder.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +69,18 @@ public class OrderSummaryActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Save to xml file and return to main screen
+
+                try {
+                    String ordersString = currentOrder.createXML(currentOrder);
+                    Log.d("XMLOutput", "Orders xml output : " + ordersString);
+                    FileOutputStream fos = openFileOutput("orders.xml", Context.MODE_PRIVATE);
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
+                    outputStreamWriter.write(ordersString);
+                    fos.close();
+                } catch (Exception e){
+                    Log.e("XMLError", "Error saving to XML File");
+                    //Toast message
+                }
 
                 Intent i = new Intent(OrderSummaryActivity.this, MenuScreen.class);
                 startActivity(i);
