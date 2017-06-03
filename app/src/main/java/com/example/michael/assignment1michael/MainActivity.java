@@ -30,7 +30,6 @@ import static com.example.michael.assignment1michael.R.id.password;
 
 public class MainActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPref = null;
     EditText usernameText, passwordText;
 
     @Override
@@ -41,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         usernameText = (EditText) findViewById(R.id.username);
         passwordText = (EditText) findViewById(password);
 
-        /*sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        /*needs up top :- SharedPreferences sharedPref = null;
+
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         //internally an xml but android reads and writes putString into xml
         editor.putString("username", "Waiter1");

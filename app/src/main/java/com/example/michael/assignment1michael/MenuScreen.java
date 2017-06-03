@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -207,8 +208,13 @@ public class MenuScreen extends AppCompatActivity {
 
     private void updatePriceMenu() {
         MenuItem priceMenuItem = menu.findItem(R.id.priceval);
-        String priceTitle = "Price : $" + String.valueOf(totalOrderPrice) + "0";
+        DecimalFormat df = new DecimalFormat("0.00##");
+        String result = df.format(totalOrderPrice);
+
+        //System.out.println(String.format("%,.2f",totalOrderPrice));
+        String priceTitle = "Price : $" + String.valueOf(result);
         priceMenuItem.setTitle(priceTitle);
+
 
     }
 

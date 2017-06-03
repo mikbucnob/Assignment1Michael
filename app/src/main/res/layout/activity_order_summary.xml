@@ -1,54 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fillViewport="true"
     tools:context="com.example.michael.assignment1michael.OrderSummaryActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Order Summary"
-        android:fontFamily="Arial"
-        android:textSize="32sp"
-        android:gravity="center"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="Arial"
+            android:gravity="center"
+            android:text="Order Summary"
+            android:textSize="32sp" />
+
+
+        <TextView
+            android:id="@+id/orderTableNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="Arial"
+            android:gravity="center"
+            android:text="@string/summary_table_number"
+            android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/totalOrderPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="Arial"
+            android:gravity="center"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/saveOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="Save Order" />
+
+
+        <ListView
+            android:id="@+id/orderSummaryListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
 
 
-    <TextView
-        android:id="@+id/orderTableNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/summary_table_number"
-        android:fontFamily="Arial"
-        android:textSize="32sp"
-        android:gravity="center"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/totalOrderPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="Arial"
-        android:textSize="30sp"
-        android:gravity="center"/>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/orderSummaryListView"/>
-
-    <Button
-        android:id="@+id/saveOrder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="Save Order"/>
-
-
-</LinearLayout>
+</ScrollView>

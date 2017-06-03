@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,12 +34,15 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
     private TextView orderPrice;
     private Double totalCurrentOrderPrice = 0.0;
     private Double newTotalOrderPrice = 0.0;
+    private Double newDishTotalOrderPrice = 0.0;
     String totalOrderPriceString="";
     private Order currentOrder;
     private String dishPrice;
 
     private com.shawnlin.numberpicker.NumberPicker tableNumber;
     private com.shawnlin.numberpicker.NumberPicker numDishes;
+
+    private boolean isOngoingOrder = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
 
         if(currentOrder !=null) {
             totalCurrentOrderPrice = currentOrder.getOrderTotalPrice();
+            isOngoingOrder = true;
         }
 
         ImageView dishImage = (ImageView) findViewById(R.id.orderPicture);
@@ -95,17 +100,28 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
 
         //Populate NumberPicker values from minimum and maximum value range
         //Set the minimum value of NumberPicker
-        tableNumber.setMinValue(0);
+        tableNumber.setMinValue(1);
         //Specify the maximum value/number of NumberPicker
         tableNumber.setMaxValue(15);
 
         //Gets whether the selector wheel wraps when reaching the min/max value.
         tableNumber.setWrapSelectorWheel(true);
 
-        tableNumber.setValue(0);
+        if(isOngoingOrder){
+            tableNumber.setValue(currentOrder.getTableNumber());
+            //tableNumber.setEnabled(false);
+        } else {
+            tableNumber.setValue(0);
+        }
 
         //Number of Dishes
         numDishes = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.numDishes);
+        numDishes.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
+                updatePrices();
+            }
+        });
 
         //Populate NumberPicker values from minimum and maximum value range
         //Set the minimum value of NumberPicker
@@ -144,27 +160,32 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         //newTotalOrderPrice = totalCurrentOrderPrice;
 
         //Integer.parseInt()
-        Double totalDishPrice = Double.valueOf(dishPrice) * numDishes.getValue();
-        String priceText = String.valueOf(Double.valueOf(dishPrice) * numDishes.getValue());
+        DecimalFormat df = new DecimalFormat("0.00##");
+        newDishTotalOrderPrice = Double.valueOf(dishPrice) * numDishes.getValue();
+        String totalDishPriceFormatted = df.format(newDishTotalOrderPrice);
+        String priceText = "Total Dish Price : $ " + totalDishPriceFormatted;
         price.setText(priceText);
 
-        Log.d("Price", "totalCurrentOrderPrice : " + totalCurrentOrderPrice + " totaldishprice : " + totalDishPrice);
-        newTotalOrderPrice = totalCurrentOrderPrice + totalDishPrice;
+        Log.d("Price", "totalCurrentOrderPrice : " + totalCurrentOrderPrice + " totaldishprice : " + newDishTotalOrderPrice);
+        newTotalOrderPrice = totalCurrentOrderPrice + newDishTotalOrderPrice;
         Log.d("New price", "newTotalOrderprice : " + newTotalOrderPrice);
-        String totalPriceText = String.valueOf(newTotalOrderPrice);
+        String newTotalOrderPriceFormatted = df.format(newTotalOrderPrice);
+        String totalPriceText = "Total Order Price : $ " + newTotalOrderPriceFormatted;
         orderPrice.setText(totalPriceText);
     }
 
     private void addItemToOrder(TextView dishName) {
+        DecimalFormat df = new DecimalFormat("0.00##");
         HashMap<String, Object> dishOrder = new HashMap<String, Object>();
         dishOrder.put("dishname", dishName.getText().toString());
         dishOrder.put("dishquantity", numDishes.getValue());
-        dishOrder.put("dishtotalprice", Double.valueOf(price.getText().toString()));
+        dishOrder.put("dishtotalprice", Double.valueOf(df.format(newDishTotalOrderPrice)));
         if(currentOrder == null) {
             currentOrder = new Order(tableNumber.getValue(), dishOrder,
                    newTotalOrderPrice);
             Log.d("Order", "Creating order with new total order price: " + newTotalOrderPrice);
         } else {
+            currentOrder.setTableNumber(tableNumber.getValue());
             currentOrder.addDishtoOrder(dishOrder);
             currentOrder.setOrderTotalPrice(newTotalOrderPrice);
         }
