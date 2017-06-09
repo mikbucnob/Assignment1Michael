@@ -28,10 +28,12 @@ public class DishAdapter extends BaseAdapter
     private Activity activity;
     private ArrayList<Dish> data;
     private static LayoutInflater inflater=null;
+    private int fontSize;
 
-    public DishAdapter(Activity a, ArrayList<Dish> d) {
+    public DishAdapter(Activity a, ArrayList<Dish> d, int fontSize) {
         activity = a;
         data=d;
+        this.fontSize = fontSize;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //service locator pattern (inflates xml to objects)
 
@@ -65,8 +67,11 @@ public class DishAdapter extends BaseAdapter
 
         // Setting all values in listview
         title.setText(dish.getName());
+        title.setTextSize(fontSize);
         description.setText(dish.getDescription());
+        description.setTextSize(fontSize);
         price.setText("$"+ dish.getPrice());
+        price.setTextSize(fontSize);
         int imageId = dish.getImageId();
 
         Drawable image = ContextCompat.getDrawable(activity, imageId);

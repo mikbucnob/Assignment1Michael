@@ -29,9 +29,9 @@
     <string name="font_sized">Font Sized</string>
 
     <string-array name="fontsize_types">
-        <item>Font Size 12</item>
         <item>Font Size 16</item>
-        <item>Font Size 22</item>
+        <item>Font Size 20</item>
+        <item>Font Size 25</item>
         <item>Font Size 30</item>
     </string-array>
 

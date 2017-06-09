@@ -15,6 +15,7 @@
         tools:context="com.example.michael.assignment1michael.MainActivity">
 
         <TextView
+            android:id="@+id/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="Arial"
@@ -40,6 +41,7 @@
             android:background="@drawable/edittextstyle"/>
 
         <TextView
+            android:id="@+id/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="Arial"

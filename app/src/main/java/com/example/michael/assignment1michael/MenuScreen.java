@@ -12,7 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -44,13 +46,18 @@ public class MenuScreen extends AppCompatActivity {
 
     private Order currentOrder;
 
+    SharedPreferences sharedPref = null;
+    LinearLayout myLayout;
+    int fontSize;
+    private TextView title;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_screen);
 
-
+        title = (TextView) findViewById(R.id.menuScreenTitle);
 
         XMLUtil xmlUtil = new XMLDish(this);
 
@@ -71,6 +78,7 @@ public class MenuScreen extends AppCompatActivity {
 
         ListView myList = loadListViewAdapter(ALL);//passes the required arraylist to the listview
 
+        setPreferenceTheme();
 
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -158,10 +166,33 @@ public class MenuScreen extends AppCompatActivity {
             }
         }
 
-        DishAdapter myAdapter = new DishAdapter(this, updatedDishes);
+        DishAdapter myAdapter = new DishAdapter(this, updatedDishes, fontSize);
         myList.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
         return myList;
+    }
+
+
+    private void setPreferenceTheme() {
+        sharedPref = getApplicationContext().getSharedPreferences("myprefs", 0);
+        String colorString = "";
+        colorString = sharedPref.getString("rgb", "");
+        Log.d("ColorSet", "Color set is : " + colorString);
+
+        myLayout = (LinearLayout) findViewById(R.id.menuScreenLayout);
+        if(colorString != null && colorString != "") {
+            myLayout.setBackgroundColor(Integer.valueOf(colorString));
+        }
+
+        String fontSizeString = sharedPref.getString("fontsize", "");
+        if("" != fontSizeString) {
+            fontSize = Integer.valueOf(fontSizeString);
+            Log.d("FontSize", "MainActivity : Read font size from preferences : " + fontSize);
+
+            //Set font for all components in this activity
+            title.setTextSize(fontSize);
+            loadListViewAdapter(ALL);
+        }
     }
 
     @Override
@@ -248,6 +279,8 @@ public class MenuScreen extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //Refresh your stuff here
+        setPreferenceTheme();
         Intent intent = getIntent();
         if(null != intent.getExtras()) {
              currentOrder = (Order) intent.getExtras().getSerializable("currentOrder");

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -20,9 +21,7 @@ public class ScreenCustomerisation extends AppCompatActivity {
 
     int red=0; int blue=0; int green=0;
     LinearLayout linearLayout;
-    Button textresizeButton;
     SharedPreferences sharedPref = null;
-    String rgbString="000000";
     String fontSizeString="12";
     SharedPreferences.Editor editor;
 
@@ -34,7 +33,6 @@ public class ScreenCustomerisation extends AppCompatActivity {
         ((SeekBar) findViewById(R.id.redBar)).setOnSeekBarChangeListener(sbl);
         ((SeekBar) findViewById(R.id.greenBar)).setOnSeekBarChangeListener(sbl);
         ((SeekBar) findViewById(R.id.blueBar)).setOnSeekBarChangeListener(sbl);
-        textresizeButton=(Button) findViewById(R.id.textresize);
         final TextView fontchanger=(TextView)findViewById(R.id.fontchecker);
         final Spinner sizer=(Spinner) findViewById(R.id.fontsizeSpinner);
 
@@ -44,33 +42,28 @@ public class ScreenCustomerisation extends AppCompatActivity {
         //internally an xml but android reads and writes putString into xml
         //editor.commit();
 
-        textresizeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-
-                //if (sizer.equals("Font Size 12")){
-                if (sizer.getSelectedItemPosition()==0){
-                    //font size 12 option
-                    fontSizeString="12";
-                    fontchanger.setTextSize(12);
-                }
-                else if (sizer.getSelectedItemPosition()==1){
-                    //font size 16 option
+        sizer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(sizer.getSelectedItem().equals("Font Size 16")){
+                    //if (sizer.getSelectedItemPosition()==0){
                     fontSizeString="16";
-                    fontchanger.setTextSize(16);
                 }
-                else if (sizer.getSelectedItemPosition()==2){
-                    //font size 22 option
-                    fontSizeString="22";
-                    fontchanger.setTextSize(22);
+                else if(sizer.getSelectedItem().equals("Font Size 20")){
+                    fontSizeString="20";
                 }
-                else if (sizer.getSelectedItemPosition()==3){
-                    //font size 30 option
+                else if(sizer.getSelectedItem().equals("Font Size 25")){
+                    fontSizeString="25";
+                }
+                else if(sizer.getSelectedItem().equals("Font Size 30")){
                     fontSizeString="30";
-                    fontchanger.setTextSize(30);
                 }
+                fontchanger.setTextSize(Integer.parseInt(fontSizeString));
                 editor.putString("fontsize", fontSizeString);
                 editor.commit();
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
             }
         });
 

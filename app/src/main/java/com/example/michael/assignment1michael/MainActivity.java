@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ import static com.example.michael.assignment1michael.R.id.shortcut;
 public class MainActivity extends AppCompatActivity {
 
     EditText usernameText, passwordText;
+    TextView title1, title2;
     SharedPreferences sharedPref = null;
     SharedPreferences.Editor editor;
     LinearLayout myLayout;
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         Button logonbutton=(Button) findViewById(R.id.logonButton);
         usernameText = (EditText) findViewById(R.id.username);
         passwordText = (EditText) findViewById(password);
+        title1 = (TextView) findViewById(R.id.title1);
+        title2 = (TextView) findViewById(R.id.title2);
 
         setPreferenceTheme();
 
@@ -58,9 +62,8 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
         //sharedPreferences for a quick inbuilt android data storage mechanism*/
 
-        final EditText edittext = (EditText) findViewById(password);
-        edittext.setTextSize(fontSize);
-        edittext.setOnKeyListener(new View.OnKeyListener() {
+
+        passwordText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -106,6 +109,13 @@ public class MainActivity extends AppCompatActivity {
         String fontSizeString = sharedPref.getString("fontsize", "");
         if("" != fontSizeString) {
             fontSize = Integer.valueOf(fontSizeString);
+            Log.d("FontSize", "MainActivity : Read font size from preferences : " + fontSize);
+
+            //Set font for all components in this activity
+            usernameText.setTextSize(fontSize);
+            passwordText.setTextSize(fontSize);
+            title1.setTextSize(fontSize);
+            title2.setTextSize(fontSize);
         }
     }
 
