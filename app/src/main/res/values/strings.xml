@@ -20,4 +20,19 @@
     <string name="orderprice">Price = $</string>
     <string name="total_order_price">totalorderprice</string>
     <string name="summary_table_number">Table Number :</string>
+    <string name="preference_screen">Preference Screen</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="action_settings">Settings</string>
+    <string name="change_font_size">change font size</string>
+    <string name="font_sized">Font Sized</string>
+
+    <string-array name="fontsize_types">
+        <item>Font Size 12</item>
+        <item>Font Size 16</item>
+        <item>Font Size 22</item>
+        <item>Font Size 30</item>
+    </string-array>
+
 </resources>

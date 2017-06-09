@@ -26,5 +26,8 @@
     <item android:id="@+id/onSpecial"
         android:title="Special"
         app:showAsAction="never"/>
+    <item android:id="@+id/preferences"
+        android:title="Preferences"
+        app:showAsAction="never"/>
 </menu>
 

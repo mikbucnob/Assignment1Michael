@@ -200,6 +200,9 @@ public class MenuScreen extends AppCompatActivity {
             case R.id.onSpecial:
                 loadListViewAdapter(ON_SPECIAL);
                 return true;
+            case R.id.preferences:
+                Intent i = new Intent(MenuScreen.this, ScreenCustomerisation.class);
+                startActivity(i);
             default:
                 return super.onOptionsItemSelected(item);
                 //if menu item is available in the parent class on options method

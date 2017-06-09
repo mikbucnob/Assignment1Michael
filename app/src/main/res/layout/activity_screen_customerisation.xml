@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/screenChoice"
+    tools:context="com.example.michael.assignment1michael.ScreenCustomerisation">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/preference_screen"
+        android:textSize="32sp"
+        android:fontFamily="Arial"
+        android:gravity="center"
+        android:layout_marginBottom="20dp" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/red"
+            android:paddingRight="25px" />
+
+        <SeekBar
+            android:id="@+id/redBar"
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:max="255" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/green"/>
+
+        <SeekBar
+            android:id="@+id/greenBar"
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:max="255"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blue"
+            android:paddingRight="19px"/>
+
+        <SeekBar
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:id="@+id/blueBar"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fontsizeSpinner"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentTop="true"
+            android:entries="@array/fontsize_types"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/textresize"
+            android:text="@string/change_font_size"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentTop="true"
+            android:text="@string/font_sized"
+            android:id="@+id/fontchecker" />
+
+        </LinearLayout>
+
+</LinearLayout>

@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.List;
 
 
 import static com.example.michael.assignment1michael.R.id.password;
+import static com.example.michael.assignment1michael.R.id.shortcut;
 
 //need more than one waiter for login
 //read from xml file
@@ -31,6 +33,10 @@ import static com.example.michael.assignment1michael.R.id.password;
 public class MainActivity extends AppCompatActivity {
 
     EditText usernameText, passwordText;
+    SharedPreferences sharedPref = null;
+    SharedPreferences.Editor editor;
+    LinearLayout myLayout;
+    int fontSize = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         Button logonbutton=(Button) findViewById(R.id.logonButton);
         usernameText = (EditText) findViewById(R.id.username);
         passwordText = (EditText) findViewById(password);
+
+        setPreferenceTheme();
 
         /*needs up top :- SharedPreferences sharedPref = null;
 
@@ -51,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //sharedPreferences for a quick inbuilt android data storage mechanism*/
 
         final EditText edittext = (EditText) findViewById(password);
+        edittext.setTextSize(fontSize);
         edittext.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
@@ -67,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        logonbutton.setTextSize(fontSize);
         logonbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +87,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    /**
+     * Method to set the background and font based on preferences
+     */
+    private void setPreferenceTheme() {
+        sharedPref = getApplicationContext().getSharedPreferences("myprefs", 0);
+        String colorString = "";
+        colorString = sharedPref.getString("rgb", "");
+        Log.d("ColorSet", "Color set is : " + colorString);
+
+        myLayout = (LinearLayout) findViewById(R.id.loginScreenLayout);
+        if(colorString != null && colorString != "") {
+            myLayout.setBackgroundColor(Integer.valueOf(colorString));
+        }
+
+        String fontSizeString = sharedPref.getString("fontsize", "");
+        if("" != fontSizeString) {
+            fontSize = Integer.valueOf(fontSizeString);
+        }
     }
 
     private void logonValidator(View view) {
@@ -165,5 +195,13 @@ public class MainActivity extends AppCompatActivity {
         String result = formatter.toString();
         formatter.close();
         return result;
+    }
+
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
+        setPreferenceTheme();
     }
 }
