@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -61,12 +62,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
             dishesDisplay.add(dishInfoString);
         }
 
-        String[] items = dishesDisplay.toArray(new String[dishesDisplay.size()]);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, items);
-
-        orderSummary.setAdapter(adapter);
 
         Log.d("DishVal", "CurrentOrder : " + currentOrder.getTableNumber() + " : " + currentOrder.getOrderTotalPrice());
         tableNumber.setText("Table number is : " + String.valueOf(currentOrder.getTableNumber()));
@@ -97,7 +92,22 @@ public class OrderSummaryActivity extends AppCompatActivity {
             }
         });
 
+        setPreferenceTheme();
+        String[] items = dishesDisplay.toArray(new String[dishesDisplay.size()]);
+
+        orderSummary.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView textView = (TextView) super.getView(position, convertView, parent);
+                Log.d("OrderSummaryListView", "Setting font size for list view to : " + fontSize);
+                textView.setTextSize(fontSize);
+
+                return textView;
+            }
+        });
     }
+
+
 
     @Override
     public void onBackPressed (){
