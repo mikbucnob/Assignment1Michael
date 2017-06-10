@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPref = null;
     SharedPreferences.Editor editor;
     LinearLayout myLayout;
-    int fontSize = 30;
+    int fontSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

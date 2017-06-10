@@ -2,12 +2,14 @@ package com.example.michael.assignment1michael;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,16 +24,23 @@ import static android.R.id.list;
 public class OrderSummaryActivity extends AppCompatActivity {
 
     private Order currentOrder;
+    private TextView title;
     private TextView tableNumber;
     private TextView totalOrderPrice;
     private ListView orderSummary;
     private Button saveOrder;
+
+    SharedPreferences sharedPref = null;
+    SharedPreferences.Editor editor;
+    LinearLayout myLayout;
+    int fontSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_summary);
 
+        title = (TextView) findViewById(R.id.orderSummaryTitle) ;
         Intent intent = getIntent();
         currentOrder = (Order) intent.getExtras().getSerializable("currentOrder");
 
@@ -95,5 +104,40 @@ public class OrderSummaryActivity extends AppCompatActivity {
         Intent i = new Intent(OrderSummaryActivity.this, MenuScreen.class);
         startActivity(i);
         finish();
+    }
+
+    /**
+     * Method to set the background and font based on preferences
+     */
+    private void setPreferenceTheme() {
+        sharedPref = getApplicationContext().getSharedPreferences("myprefs", 0);
+        String colorString = "";
+        colorString = sharedPref.getString("rgb", "");
+        Log.d("ColorSet", "Color set is : " + colorString);
+
+        myLayout = (LinearLayout) findViewById(R.id.orderSummaryScreen);
+        if(colorString != null && colorString != "") {
+            myLayout.setBackgroundColor(Integer.valueOf(colorString));
+        }
+
+        String fontSizeString = sharedPref.getString("fontsize", "");
+        if("" != fontSizeString) {
+            fontSize = Integer.valueOf(fontSizeString);
+            Log.d("FontSize", "MainActivity : Read font size from preferences : " + fontSize);
+
+            //Set font for all components in this activity
+            tableNumber.setTextSize(fontSize);
+            totalOrderPrice.setTextSize(fontSize);
+            saveOrder.setTextSize(fontSize);
+            title.setTextSize(fontSize);
+        }
+    }
+
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
+        setPreferenceTheme();
     }
 }

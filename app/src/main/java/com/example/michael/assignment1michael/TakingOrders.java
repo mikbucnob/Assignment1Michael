@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,10 +26,12 @@ import java.util.HashMap;
 
 public class TakingOrders extends AppCompatActivity implements com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener {
 
-    private ImageView dishImage;
 
     private TextView dishName;
 
+    private TextView pageTitle;
+    private TextView tableNumtitle;
+    private TextView quantity;
     private TextView price;
     private Button completeOrder;
     private TextView orderPrice;
@@ -44,10 +47,20 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
 
     private boolean isOngoingOrder = false;
 
+    SharedPreferences sharedPref = null;
+    SharedPreferences.Editor editor;
+    LinearLayout myLayout;
+
+    int fontSize;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taking_orders);
+
+        pageTitle = (TextView) findViewById(R.id.takingOrderScreenTitle) ;
+        tableNumtitle = (TextView) findViewById(R.id.takingOrderTableNumTitle) ;
+        quantity = (TextView) findViewById(R.id.takingOrderQuantityTitle);
 
         Intent intent = getIntent();
         String imageId = intent.getStringExtra("imageid");
@@ -154,6 +167,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         });
 
 
+        setPreferenceTheme();
     }
 
     private void updatePrices(){
@@ -191,6 +205,52 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         }
     }
 
+    /**
+     * Method to set the background and font based on preferences
+     */
+    private void setPreferenceTheme() {
+        sharedPref = getApplicationContext().getSharedPreferences("myprefs", 0);
+        String colorString = "";
+        colorString = sharedPref.getString("rgb", "");
+        Log.d("ColorSet", "Color set is : " + colorString);
+
+        myLayout = (LinearLayout) findViewById(R.id.takingOrderScreen);
+        if(colorString != null && colorString != "") {
+            myLayout.setBackgroundColor(Integer.valueOf(colorString));
+        }
+
+        String fontSizeString = sharedPref.getString("fontsize", "");
+        if("" != fontSizeString) {
+            fontSize = Integer.valueOf(fontSizeString);
+            Log.d("FontSize", "MainActivity : Read font size from preferences : " + fontSize);
+
+            //Set font for all components in this activity
+            dishName.setTextSize(fontSize);
+            price.setTextSize(fontSize);
+            orderPrice.setTextSize(fontSize);
+
+            for(int i=0; i<tableNumber.getChildCount(); i++){
+                if(tableNumber.getChildAt(i) instanceof EditText){
+                    EditText tableNumPickerText = (EditText) tableNumber.getChildAt(i);
+                    Log.d("SpinnerFontSsize", "Setting spinner 1 font size to : " + fontSize);
+                    tableNumPickerText.setTextSize(fontSize);
+                }
+            }
+
+            for(int i=0; i<numDishes.getChildCount(); i++){
+                if(numDishes.getChildAt(i) instanceof EditText){
+                    EditText numDishesPickerText = (EditText) numDishes.getChildAt(i);
+                    Log.d("SpinnerFontSsize", "Setting spinner 2 font size to : " + fontSize);
+                    numDishesPickerText.setTextSize(fontSize);
+                }
+            }
+
+            pageTitle.setTextSize(fontSize);
+            tableNumtitle.setTextSize(fontSize);
+            quantity.setTextSize(fontSize);
+        }
+    }
+
 
     public void onValueChange (com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
         Log.d("NumberPick", "Picker");
@@ -218,5 +278,13 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         i.putExtra("currentOrder", currentOrder);
         setResult(RESULT_OK, i);
         finish();
+    }
+
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
+        setPreferenceTheme();
     }
 }

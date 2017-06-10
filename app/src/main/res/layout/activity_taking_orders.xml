@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:id="@+id/takingOrderScreen"
         tools:context="com.example.michael.assignment1michael.TakingOrders">
 
         <TextView
@@ -22,6 +23,7 @@
             android:textSize="32sp"
             android:gravity="center"
             android:includeFontPadding="false"
+            android:id="@+id/takingOrderScreenTitle"
             android:text="@string/chikki_chinese_restaurant"
             />
 
@@ -48,6 +50,7 @@
             android:gravity="center"
             android:paddingTop="10dp"
             android:textSize="25sp"
+            android:id="@+id/takingOrderTableNumTitle"
             android:text="@string/table_number2"/>
 
         <com.shawnlin.numberpicker.NumberPicker
@@ -73,6 +76,7 @@
             android:gravity="center"
             android:textSize="25sp"
             android:paddingTop="10dp"
+            android:id="@+id/takingOrderQuantityTitle"
             android:text="@string/quantity_of_dishes"/>
 
         <com.shawnlin.numberpicker.NumberPicker
