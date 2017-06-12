@@ -1,5 +1,6 @@
 package com.example.michael.assignment1michael;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -65,8 +66,90 @@ public class Order extends XMLUtil implements Serializable{
     //@ is an annotation - it's like notes
     @Override
     protected List readRoot(XmlPullParser parser) throws XmlPullParserException, IOException {
-        List entries = new ArrayList();
-        return entries;
+        List ordersList = new ArrayList();
+
+        parser.require(XmlPullParser.START_TAG, ns, "orders");
+
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String name = parser.getName();
+            // Starts by looking for the dish tag
+            if (name.equals("order")) {
+                ordersList = readOrders(parser);
+                break;
+            } else {
+                skip(parser);
+            }
+        }
+        return ordersList;
+    }
+
+    // Parses the contents of existing orders.
+    private ArrayList<Order> readOrders(XmlPullParser parser) throws XmlPullParserException, IOException {
+
+/*
+        ArrayList<Order>  orders = null;
+        int eventType = parser.getEventType();
+        Order order = null;
+
+        while (eventType != XmlPullParser.END_DOCUMENT){
+            String name;
+            switch (eventType){
+                case XmlPullParser.START_DOCUMENT:
+                    break;
+                case XmlPullParser.START_TAG:
+                    if(null == orders){
+                        orders = new ArrayList();
+                    }
+                    name = parser.getName();
+                    Dish dishes = null;
+                    if (name.equals("dish")){
+                        Log.d("dish", "Start Tag dish");
+                        dish = new Dish();
+                        while(eventType != XmlPullParser.END_DOCUMENT){
+                            String name;
+                            switch (eventType){
+                                case XmlPullParser.START_DOCUMENT:
+                                    break;
+                                case XmlPullParser.START_TAG:
+                                    if(null == orders){
+                                        orders = new ArrayList();
+                                    }
+                                    name = parser.getName();
+                                    Dish dish = null;
+                                    if (name.equals("dish")){
+
+                                    } else if(){
+
+                                    }
+                        }
+
+                    } else if (user != null){
+                        Log.d("check title", "name : " + name );
+                        if (name.equals("username")){
+                            user.setUsername(parser.nextText());
+                        } else if (name.equals("password")){
+                            user.setPassword(parser.nextText());
+                        }
+                    }
+                    break;
+                case XmlPullParser.END_TAG:
+                    Log.d("end", "end tag");
+                    name = parser.getName();
+                    if (name.equalsIgnoreCase("dish") && dish != null){
+                        Log.d("Adding", "Adding dish to dishes");
+                        dishes.add(dish);
+                    }
+            }
+            eventType = parser.next();
+        }
+
+        return users;
+        */
+
+        return null;
     }
 
     public String createXML(Object object) throws IllegalArgumentException, IllegalStateException, IOException
@@ -100,15 +183,23 @@ public class Order extends XMLUtil implements Serializable{
 
             for (HashMap<String, Object> dish : dishes) {
 
-                xmlSerializer.startTag(ns, "dish");
-
                 String dishName = (String) dish.get("dishname");
                 Integer dishQuantity = (Integer) dish.get("dishquantity");
                 Double dishTotalPrice = (Double) dish.get("dishtotalprice");
 
-                xmlSerializer.attribute(ns, "name", dishName);
-                xmlSerializer.attribute(ns, "quantity", String.valueOf(dishQuantity));
-                xmlSerializer.attribute(ns, "totalprice", String.valueOf(dishTotalPrice));
+                xmlSerializer.startTag(ns, "dish");
+
+                xmlSerializer.startTag(ns, "name");
+                xmlSerializer.text(dishName);
+                xmlSerializer.endTag(ns, "name");
+
+                xmlSerializer.startTag(ns, "quantity");
+                xmlSerializer.text(String.valueOf(dishQuantity));
+                xmlSerializer.endTag(ns, "quantity");
+
+                xmlSerializer.startTag(ns, "price");
+                xmlSerializer.text(String.valueOf(dishTotalPrice));
+                xmlSerializer.endTag(ns, "price");
 
                 xmlSerializer.endTag(ns, "dish");
             }
