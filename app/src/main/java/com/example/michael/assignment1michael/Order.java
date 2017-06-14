@@ -1,6 +1,5 @@
 package com.example.michael.assignment1michael;
 
-import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -160,8 +159,8 @@ public class Order extends XMLUtil implements Serializable{
         StringWriter stringWriter = new StringWriter();
         xmlSerializer.setOutput(stringWriter);
 
-        xmlSerializer.startDocument("UTF-8", true);
-        xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+        //xmlSerializer.startDocument("UTF-8", true);
+        //xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
 
         xmlSerializer.startTag(ns, "orders");
         createOrder(xmlSerializer, order);

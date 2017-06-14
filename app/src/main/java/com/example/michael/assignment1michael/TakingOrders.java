@@ -4,31 +4,28 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TakingOrders extends AppCompatActivity implements com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener {
 
 
+    String totalOrderPriceString = "";
+    SharedPreferences sharedPref = null;
+    SharedPreferences.Editor editor;
+    LinearLayout myLayout;
+    int fontSize;
     private TextView dishName;
-
     private TextView pageTitle;
     private TextView tableNumtitle;
     private TextView quantity;
@@ -38,20 +35,11 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
     private Double totalCurrentOrderPrice = 0.0;
     private Double newTotalOrderPrice = 0.0;
     private Double newDishTotalOrderPrice = 0.0;
-    String totalOrderPriceString="";
     private Order currentOrder;
     private String dishPrice;
-
     private com.shawnlin.numberpicker.NumberPicker tableNumber;
     private com.shawnlin.numberpicker.NumberPicker numDishes;
-
     private boolean isOngoingOrder = false;
-
-    SharedPreferences sharedPref = null;
-    SharedPreferences.Editor editor;
-    LinearLayout myLayout;
-
-    int fontSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +99,13 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
 
         tableNumber = (com.shawnlin.numberpicker.NumberPicker) findViewById(R.id.table);
 
+        tableNumber.setOnValueChangedListener(new com.shawnlin.numberpicker.NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
+                Log.d("Spinner1", "Calling setpref for TableNumber Spinner");
+                //setPreferenceTheme();
+            }
+        });
         //Populate NumberPicker values from minimum and maximum value range
         //Set the minimum value of NumberPicker
         tableNumber.setMinValue(1);
@@ -133,6 +128,8 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
             @Override
             public void onValueChange(com.shawnlin.numberpicker.NumberPicker picker, int oldVal, int newVal) {
                 updatePrices();
+                Log.d("Spinner2", "Calling set pref for number of dishes spinner");
+                //setPreferenceTheme();
             }
         });
 
@@ -229,7 +226,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
             price.setTextSize(fontSize);
             orderPrice.setTextSize(fontSize);
 
-            for(int i=0; i<tableNumber.getChildCount(); i++){
+            /**for(int i=0; i<tableNumber.getChildCount(); i++){
                 if(tableNumber.getChildAt(i) instanceof EditText){
                     EditText tableNumPickerText = (EditText) tableNumber.getChildAt(i);
                     Log.d("SpinnerFontSsize", "Setting spinner 1 font size to : " + fontSize);
@@ -243,7 +240,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
                     Log.d("SpinnerFontSsize", "Setting spinner 2 font size to : " + fontSize);
                     numDishesPickerText.setTextSize(fontSize);
                 }
-            }
+             }**/
 
             pageTitle.setTextSize(fontSize);
             tableNumtitle.setTextSize(fontSize);

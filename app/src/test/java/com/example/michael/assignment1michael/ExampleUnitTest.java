@@ -2,9 +2,7 @@ package com.example.michael.assignment1michael;
 
 import org.junit.Test;
 
-import dalvik.annotation.TestTargetClass;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -21,5 +19,17 @@ public class ExampleUnitTest {
     public void myTestCase() throws Exception{
         String testString = "Hello";
         assertEquals(testString,"Hellow");
+    }
+
+    @Test
+    public void testUserConst_1() {
+        User user = new User();
+        assertEquals(user.getUsername(), "");
+        assertEquals(user.getPassword(), "");
+    }
+
+    @Test
+    public void testUserConst_2() {
+        User user2 = new User("Username", "pwd");
     }
 }

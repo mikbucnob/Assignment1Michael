@@ -3,8 +3,8 @@ package com.example.michael.assignment1michael;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,23 +18,19 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import static android.R.id.list;
 
 public class OrderSummaryActivity extends AppCompatActivity {
 
+    SharedPreferences sharedPref = null;
+    SharedPreferences.Editor editor;
+    LinearLayout myLayout;
+    int fontSize;
     private Order currentOrder;
     private TextView title;
     private TextView tableNumber;
     private TextView totalOrderPrice;
     private ListView orderSummary;
     private Button saveOrder;
-
-    SharedPreferences sharedPref = null;
-    SharedPreferences.Editor editor;
-    LinearLayout myLayout;
-    int fontSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +71,26 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 //Save to xml file and return to main screen
 
                 try {
+
                     String ordersString = currentOrder.createXML(currentOrder);
-                    Log.d("XMLOutput", "Orders xml output : " + ordersString);
+                    Log.d("XMLOutput", "Current Order xml output : " + ordersString);
+
+                    //Check previous order string from preference
+                    String prevOrderString = sharedPref.getString("orderstring", "");
+                    if (null == prevOrderString) {
+                        prevOrderString = "";
+                    }
+
+                    String updatedOrdersString = prevOrderString + ordersString;
+                    editor = sharedPref.edit();
+                    editor.putString("orderstring", updatedOrdersString);
+                    editor.commit();
+
+
                     FileOutputStream fos = openFileOutput("orders.xml", Context.MODE_PRIVATE);
                     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
-                    outputStreamWriter.write(ordersString);
+                    Log.d("XMLOutput", "Writing Orders xml output : " + updatedOrdersString);
+                    outputStreamWriter.write(updatedOrdersString);
                     fos.close();
                 } catch (Exception e){
                     Log.e("XMLError", "Error saving to XML File");

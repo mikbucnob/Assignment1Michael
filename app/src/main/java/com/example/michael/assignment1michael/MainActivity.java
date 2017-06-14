@@ -1,11 +1,9 @@
 package com.example.michael.assignment1michael;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ButtonBarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,9 +22,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
-
 import static com.example.michael.assignment1michael.R.id.password;
-import static com.example.michael.assignment1michael.R.id.shortcut;
 
 //need more than one waiter for login
 //read from xml file
@@ -38,7 +34,32 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPref = null;
     SharedPreferences.Editor editor;
     LinearLayout myLayout;
-    int fontSize;
+    int fontSize = 25;
+
+    private static String encryptPassword(String password) {
+        String sha1 = "";
+        try {
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            crypt.reset();
+            crypt.update(password.getBytes("UTF-8"));
+            sha1 = byteToHex(crypt.digest());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return sha1;
+    }
+
+    private static String byteToHex(final byte[] hash) {
+        Formatter formatter = new Formatter();
+        for (byte b : hash) {
+            formatter.format("%02x", b);
+        }
+        String result = formatter.toString();
+        formatter.close();
+        return result;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +137,17 @@ public class MainActivity extends AppCompatActivity {
             passwordText.setTextSize(fontSize);
             title1.setTextSize(fontSize);
             title2.setTextSize(fontSize);
+        } else if (null == fontSizeString || "".equals(fontSizeString)) {
+            //Since the preferences is not set, it could be first time the app is launched
+            //So set a default value in preferences and apply font to components in this activity
+            editor = sharedPref.edit();
+            editor.putString("fontsize", String.valueOf(fontSize));
+            editor.commit();
+
+            //Set font for all components in this activity
+            usernameText.setTextSize(fontSize);
+            passwordText.setTextSize(fontSize);
+            title1.setTextSize(fontSize);
         }
     }
 
@@ -171,40 +203,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "cannot open users.xml!",Toast.LENGTH_LONG).show();
         }
 
-    }
-
-
-    private static String encryptPassword(String password)
-    {
-        String sha1 = "";
-        try
-        {
-            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-            crypt.reset();
-            crypt.update(password.getBytes("UTF-8"));
-            sha1 = byteToHex(crypt.digest());
-        }
-        catch(NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
-        }
-        catch(UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
-        return sha1;
-    }
-
-    private static String byteToHex(final byte[] hash)
-    {
-        Formatter formatter = new Formatter();
-        for (byte b : hash)
-        {
-            formatter.format("%02x", b);
-        }
-        String result = formatter.toString();
-        formatter.close();
-        return result;
     }
 
     @Override
