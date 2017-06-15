@@ -32,4 +32,19 @@ public class ExampleUnitTest {
     public void testUserConst_2() {
         User user2 = new User("Username", "pwd");
     }
+
+
+    @Test
+    public void testLogonValidation() {
+        LoginValidator lv = new LoginValidator(null, "Username", "pwd");
+        assertEquals(lv.isValid(), true);
+        assertEquals(lv.isValid(), true);
+        assertEquals(lv.isValid(), true);
+        assertEquals(lv.isValid(), true);
+        assertEquals(lv.isValid(), false);
+        assertEquals(lv.isValid(), false);
+        assertEquals(lv.isValid(), false);
+        assertEquals(lv.isValid(), false);
+        assertEquals(lv.isValid(), false);
+    }
 }

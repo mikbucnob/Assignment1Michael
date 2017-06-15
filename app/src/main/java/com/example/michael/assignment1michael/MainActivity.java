@@ -13,15 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-
 import static com.example.michael.assignment1michael.R.id.password;
 
 //need more than one waiter for login
@@ -36,30 +27,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout myLayout;
     int fontSize = 25;
 
-    private static String encryptPassword(String password) {
-        String sha1 = "";
-        try {
-            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-            crypt.reset();
-            crypt.update(password.getBytes("UTF-8"));
-            sha1 = byteToHex(crypt.digest());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return sha1;
-    }
 
-    private static String byteToHex(final byte[] hash) {
-        Formatter formatter = new Formatter();
-        for (byte b : hash) {
-            formatter.format("%02x", b);
-        }
-        String result = formatter.toString();
-        formatter.close();
-        return result;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,46 +131,18 @@ public class MainActivity extends AppCompatActivity {
 
         //Parse username from the xml file
 
+        LoginValidator lv = new LoginValidator(this, userNameEntered, passwordEntered);
 
-        Log.d("Password", "Original password : " + password);
-        String shaPasswordEntered = encryptPassword(passwordEntered);
-        Log.d("SHA1Password", "Printing the SHA1 password : " + shaPasswordEntered);
+        if (lv.isValid()) {
 
 
-        List users = null;
-        XMLUtil xmlUtil = new XMLUsers(this);
-        boolean isUserPasswordMatchFound = false;
+            Intent intent = new Intent(view.getContext(), MenuScreen.class);
+            startActivity(intent);
+        } else {
 
-        try {
-            InputStream is = getAssets().open("users.xml");
-            users = xmlUtil.parse(is);
-            if (users==null){
-                Toast.makeText(this,xmlUtil.getError(),Toast.LENGTH_LONG).show();
-            } else {
-                Log.d("users", "Retrieved users list , size : " + users.size());
-                ArrayList<User> usersList = (ArrayList<User>) users;
-                for(User user : usersList){
-                    if(userNameEntered.equals(user.getUsername())){
-                        if(shaPasswordEntered.equals(user.getPassword())){
-                            isUserPasswordMatchFound = true;
-                            Intent intent = new Intent(view.getContext(), MenuScreen.class);
-                            startActivity(intent);
-                        }
-                    }
-                }
-            }
-
-            if(!isUserPasswordMatchFound){
-                Toast.makeText(MainActivity.this, "Please enter in the right username and password!",
-                        Toast.LENGTH_LONG).show();
-            }
-        }  catch (IOException e) {
-            // File not found or unable to open
-            //we knwo for sure that the file doesn't exist or we don't have
-            //permissions to open it
-            Toast.makeText(this, "cannot open users.xml!",Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Please enter in the right username and password!",
+                    Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override

@@ -6,8 +6,8 @@ package com.example.michael.assignment1michael;
 
 public class User {
 
-    private String username;
-    private String password;
+    private String username = "";
+    private String password = "";
 
     public User () {
 
