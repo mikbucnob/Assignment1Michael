@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
-import static com.example.michael.assignment1michael.R.id.password;
+//import static com.example.michael.assignment1michael.R.id.password;
 
 /**
  * Created by Michael on 14/06/2017.
@@ -26,7 +26,7 @@ class LoginValidator {
     public LoginValidator(Context activity, String userNameEntered, String passwordEntered) {
 
 
-        Log.d("Password", "Original password : " + password);
+        //Log.d("Password", "Original password : " + password);
         String shaPasswordEntered = encryptPassword(passwordEntered);
         Log.d("SHA1Password", "Printing the SHA1 password : " + shaPasswordEntered);
 
