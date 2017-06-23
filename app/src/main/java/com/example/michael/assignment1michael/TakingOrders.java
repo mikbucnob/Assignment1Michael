@@ -112,6 +112,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
         //Specify the maximum value/number of NumberPicker
         tableNumber.setMaxValue(15);
 
+
         //Gets whether the selector wheel wraps when reaching the min/max value.
         tableNumber.setWrapSelectorWheel(true);
 
@@ -119,7 +120,7 @@ public class TakingOrders extends AppCompatActivity implements com.shawnlin.numb
             tableNumber.setValue(currentOrder.getTableNumber());
             //tableNumber.setEnabled(false);
         } else {
-            tableNumber.setValue(0);
+            tableNumber.setValue(1);
         }
 
         //Number of Dishes
